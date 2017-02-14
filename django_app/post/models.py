@@ -1,6 +1,6 @@
 from django.db import models
 
-from member.models_backup import MyUser
+from member.models import MyUser
 
 
 class Post(models.Model):
