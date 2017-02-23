@@ -1,5 +1,4 @@
 """instagram URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
 Examples:
@@ -13,10 +12,30 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
 
+from . import views
+
 urlpatterns = [
-    url(r'^member/', include('member.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^member/', include('member.urls')),
+    url(r'^post/', include('post.urls')),
+    url(r'^$', views.index, name='index'),
 ]
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)
+if settings.DEBUG:
+    # urlpatterns += [
+    #     url(r'^static/(?P<path>.*)$', views.serve),
+    # ]
+    # urlpatterns += staticfiles_urlpatterns()
+    import debug_toolbar
+
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]

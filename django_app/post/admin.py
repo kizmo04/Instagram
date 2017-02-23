@@ -1,5 +1,11 @@
 from django.contrib import admin
 
-from post.models import Post
+from post.models import Post, Comment
 
-admin.site.register(Post)
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('id', 'author', 'is_visible')
+
+
+admin.site.register(Post, PostAdmin)
+admin.site.register(Comment)

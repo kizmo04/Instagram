@@ -1,0 +1,13 @@
+.clearfix:after {
+  content: '';
+  clear: both;
+  height: 0px;
+  display: block; }
+
+.btn {
+  padding: 0;
+  background-color: transparent;
+  border: none; }
+
+span.inline-block {
+  display: inline-block; }

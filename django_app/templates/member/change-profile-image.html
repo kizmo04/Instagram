@@ -1,0 +1,10 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    {{ user.img_profile }}
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        {{ form }}
+        <button type="submit">업로드</button>
+    </form>
+
+    <a href="{% url 'member:profile' %}">프로필로 가기</a>
+{% endblock %}

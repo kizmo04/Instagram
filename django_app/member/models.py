@@ -40,11 +40,29 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     nickname = models.CharField(max_length=20)
     email = models.EmailField(blank=True)
     gender = models.CharField(max_length=1, choices=CHOICES_GENDER)
+    img_profile = models.ImageField(upload_to='member', blank=True)
+
+    following = models.ManyToManyField(
+        'self',
+        symmetrical=False,
+        related_name='follower_set',
+        through='RelationShip',
+    )
 
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
     objects = MyUserManager()
+
+    def follow(self, user):
+        self.following_relations.create(
+            to_user=user,
+        )
+
+    def unfollow(self, user):
+        self.following_relations.filter(
+            to_user=user
+        ).delete()
 
     def get_full_name(self):
         return '{} ({})'.format(
@@ -54,3 +72,18 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.nickname
+
+
+class RelationShip(models.Model):
+    from_user = models.ForeignKey(MyUser, related_name='following_relations')
+    to_user = models.ForeignKey(MyUser, related_name='follower_relations')
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (
+            ('from_user', 'to_user')
+        )
+
+    def __str__(self):
+        return 'Relation from({}) to({})'.format(
+            self.from_user.username, self.to_user.username)
