@@ -13,8 +13,8 @@ class MyUserModelTest(TransactionTestCase):
         users[0].follow(users[3])
 
         # 1은 2,3을 팔로우
-        users[1].follow(users[2])
         users[1].follow(users[3])
+        users[1].follow(users[2])
 
         # 2는 3만 팔로우
         users[2].follow(users[3])

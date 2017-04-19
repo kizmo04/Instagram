@@ -41,7 +41,7 @@ __all__ = (
 )
 
 
-@login_required
+
 def post_list(request):
     posts = Post.visible.all()
     context = {
